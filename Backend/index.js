@@ -11,6 +11,10 @@ app.use(cors());  //setting the CORS policy
     this function handles the request and queries MongoDB
     to check the login
 */
+app.get('/', function(req, res){
+    res.status(200).send("Server is running!");
+});
+
 app.get("/login", function(request, response){
     var username = request.query.username;
     var password = request.query.password;
@@ -34,7 +38,6 @@ app.get("/login", function(request, response){
       });
     });
 });
-
 
 /*
     socket.io (server) initialization
