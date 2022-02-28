@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Navigate } from 'react-router-dom';
+import AuthContext from "../Contexts/AuthContext";
 
 const PrivateRoute = ({ children }) => {
-    const auth = false; //utente è loggato????
+    const { auth } = useContext(AuthContext);
+    console.log(auth);
     return (
-        auth ? children : <Navigate to="/login"/>
+        auth.success ? children : <Navigate to="/login"/>
     );
 };
 
