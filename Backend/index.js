@@ -55,6 +55,7 @@ const PORT = process.env.PORT || 5000;  //setting up the port
     socket.io message handling and Socket id emitting
 */
 io.on("connection", (socket) => {
+    console.log("New socket connection!")
 	socket.emit("me", socket.id);
 
 	socket.on("disconnect", () => {

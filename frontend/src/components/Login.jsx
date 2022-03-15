@@ -74,6 +74,7 @@ const Login = () => {
         mode: 'dark',
       },
     });
+
     return (
       <ThemeProvider theme={theme}>
         <Grid container component="main" sx={{ height: '100vh' }}>
@@ -118,9 +119,9 @@ const Login = () => {
                   onChange={(e) => setUser(e.target.value)}
                   error = { isFormInvalid }
                   id="username"
-                  label="Username"
+                  label="Email address"
                   name="username"
-                  autoComplete="username"
+                  autoComplete="email"
                   autoFocus
                 />
                 <TextField

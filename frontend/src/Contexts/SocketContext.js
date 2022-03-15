@@ -6,6 +6,7 @@ import * as Constants from '../Constants';
 const SocketContext = createContext();
 
 const socket = io(Constants.BACKEND_URL);
+console.log(socket)
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);

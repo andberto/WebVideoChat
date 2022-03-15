@@ -1,6 +1,6 @@
 import React from 'react';
-import Dashboard from './components/Dashboard.js';
-import Login from './components/Login.js'
+import Dashboard from './components/Dashboard.jsx';
+import Login from './components/Login.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute.js'
 
