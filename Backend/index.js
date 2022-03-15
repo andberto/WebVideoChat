@@ -39,6 +39,25 @@ app.get("/login", function(request, response){
     });
 });
 
+app.get('/allusers', function(req, response){
+    mongoClient.connect(uri, function(error, db) {
+      if(error) res.status(500).send("Something went wrong on the server!");
+
+      var dbo = db.db("WebVideoChat");
+      dbo.collection("users").find().toArray(function(error, result) {
+        if(error){
+            response.status(500).send("Something went wrong on the server!");
+        }else if (result.length == 0 && !error){
+            response.status(404).send("Wrong login!");
+        }else if(result.length > 0 && !error) {
+            console.log(result)
+            response.status(200).send(result);
+        }
+        db.close();
+      });
+    });
+});
+
 /*
     socket.io (server) initialization
 */
