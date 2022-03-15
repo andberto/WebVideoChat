@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,24 +9,14 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import * as Constants from '../Constants';
 
-state = {
-   users: []
-}
-
- queryComponentData() {
-   axios.get(Constants.GET_ALL_USERS)
-     .then(res => {
-       this.setState({ res.data });
-   })
- }
+let users = []
+axios.get(Constants.GET_ALL_USERS).then(res => { users = res.data; })
 
 const SideList = () => {
   return (
     <List sx={{ width: '100%', height:'100%', bgcolor: 'background.paper' }}>
         {
-          this.state.users.map(users =>
-              <li key={users.username}>users.username</li>
-            )
+            //
         }
     </List>
   );
