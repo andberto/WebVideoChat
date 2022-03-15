@@ -12,6 +12,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import bgImg from '../images/chat_bg.jpg'
 
 const darkTheme = createTheme({
   palette: {
@@ -26,7 +27,11 @@ const Dashboard = () => {
     return (
         <ContextProvider>
             <ThemeProvider theme={darkTheme}>
-               <Box sx={{ display: 'flex' }}>
+               <Box sx={{
+                   display: 'flex',
+                   backgroundImage: 'url(' + bgImg +')',
+                   backgroundRepeat: 'repeat',
+                }}>
                  <CssBaseline />
                  <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
                    <Toolbar sx={{ backgroundColor: "#3b3251", alignItems: 'center' }}>
@@ -40,7 +45,6 @@ const Dashboard = () => {
                    sx={{
                      width: drawerWidth,
                      flexShrink: 0,
-                     [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
                    }}
                  >
                 <Toolbar />
