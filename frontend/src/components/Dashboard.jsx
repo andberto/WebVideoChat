@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import { ContextProvider } from '../Contexts/SocketContext.js';
 import VideoPlayer from './VideoPlayer';
 import Sidebar from './Sidebar';
 import Notifications from './Notifications';
@@ -24,8 +23,8 @@ const Dashboard = () => {
     const { auth } = useContext(AuthContext);
     const drawerWidth = window.innerWidth * 0.25;
     console.log(auth);
+
     return (
-        <ContextProvider>
             <ThemeProvider theme={darkTheme}>
                <Box sx={{
                    display: 'flex',
@@ -59,7 +58,6 @@ const Dashboard = () => {
                  </Box>
                </Box>
             </ThemeProvider>
-        </ContextProvider>
    );
 };
 

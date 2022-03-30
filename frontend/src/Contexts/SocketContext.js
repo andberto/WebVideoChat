@@ -24,7 +24,6 @@ const ContextProvider = ({ children }) => {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-
         myVideo.current.srcObject = currentStream;
       });
 
@@ -45,11 +44,11 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.on('stream', (currentStream) => {
+        console.log("Call accepted:" + callAccepted)
       userVideo.current.srcObject = currentStream;
     });
 
     peer.signal(call.signal);
-
     connectionRef.current = peer;
   };
 
