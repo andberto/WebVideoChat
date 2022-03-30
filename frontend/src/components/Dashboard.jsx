@@ -12,6 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import bgImg from '../images/chat_bg.jpg'
+import { ContextProvider } from '../Contexts/SocketContext.js';
 
 const darkTheme = createTheme({
   palette: {
@@ -25,6 +26,7 @@ const Dashboard = () => {
     console.log(auth);
 
     return (
+        <ContextProvider>
             <ThemeProvider theme={darkTheme}>
                <Box sx={{
                    display: 'flex',
@@ -58,6 +60,7 @@ const Dashboard = () => {
                  </Box>
                </Box>
             </ThemeProvider>
+            </ContextProvider>
    );
 };
 

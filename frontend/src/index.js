@@ -6,9 +6,7 @@ import { ContextProvider } from './Contexts/SocketContext.js';
 
 ReactDOM.render(
     <AuthProvider>
-    <ContextProvider>
         <App />
-    </ContextProvider>
     </AuthProvider>,
   document.getElementById('root'),
 );
