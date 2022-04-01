@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext,useEffect } from 'react';
 import VideoPlayer from './VideoPlayer';
 import Chat from './Chat';
 import Sidebar from './Sidebar';
@@ -12,10 +12,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import bgImg from '../images/chat_bg.jpg'
-import { ContextProvider } from '../Contexts/SocketContext.js';
+import bgImg from '../images/chat_bg.jpg';
 import {Button} from '@material-ui/core';
 import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
+import { SocketContext } from '../Contexts/SocketContext';
 
 const darkTheme = createTheme({
   palette: {
@@ -25,11 +25,19 @@ const darkTheme = createTheme({
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
+    const { myVideo, currentStream, setStream} = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.25;
     console.log(auth);
 
+    useEffect(() => {
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then((currentStream) => {
+          setStream(currentStream);
+          myVideo.current.srcObject = currentStream;
+      });
+    }, []);
+
     return (
-        <ContextProvider>
             <ThemeProvider theme={darkTheme}>
                <Box sx={{
                    display: 'flex',
@@ -58,16 +66,14 @@ const Dashboard = () => {
                 <SideList/>
                 </Drawer>
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                   /*<Toolbar />
+                   <Toolbar />
                    <VideoPlayer />
                    <Sidebar>
                      <Notifications />
-                   </Sidebar>*/
-                   <Chat/>
+                   </Sidebar>
                  </Box>
                </Box>
             </ThemeProvider>
-            </ContextProvider>
    );
 };
 
