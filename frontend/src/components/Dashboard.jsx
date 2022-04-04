@@ -1,6 +1,5 @@
 import React, {useContext,useEffect } from 'react';
 import VideoPlayer from './VideoPlayer';
-import Chat from './Chat';
 import Sidebar from './Sidebar';
 import Notifications from './Notifications';
 import AuthContext from "../Contexts/AuthContext";
@@ -25,7 +24,7 @@ const darkTheme = createTheme({
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
-    const { myVideo, currentStream, setStream} = useContext(SocketContext);
+    const { myVideo, currentStream, setStream } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.25;
     console.log(auth);
 
@@ -35,7 +34,7 @@ const Dashboard = () => {
           setStream(currentStream);
           myVideo.current.srcObject = currentStream;
       });
-    }, []);
+  }, [myVideo, setStream, currentStream]);
 
     return (
             <ThemeProvider theme={darkTheme}>

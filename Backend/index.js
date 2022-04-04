@@ -39,6 +39,38 @@ app.get("/login", function(request, response){
     });
 });
 
+app.get("/signup", function(request, response){
+    var username = request.query.username;
+    var password = request.query.password;
+
+    mongoClient.connect(uri, function(error, db) {
+      if(error) response.status(500).send("Something went wrong on the server!");
+
+      var dbo = db.db("WebVideoChat");
+      var query = { username: username };
+
+      dbo.collection("users").find(query).toArray(function(error, result) {
+        if(error){
+            console.log(error);
+            response.status(500).send("Something went wrong on the server!");
+            db.close();
+        }else if (result.length == 0 && !error){
+            var newUser = { username: username, password: password };
+            dbo.collection("users").insertOne(newUser, function(err, res) {
+                console.log(err);
+                if(err) response.status(500).send("Something went wrong on the server! During account creation");
+                else response.status(200).send("New account created successfully!");
+                db.close();
+            });
+        }else if(result.length > 0 && !error) {
+            console.log(result)
+            response.status(404).send("Username already exists!");
+            db.close();
+        }
+      });
+    });
+});
+
 app.get('/allusers', function(req, response){
     mongoClient.connect(uri, function(error, db) {
       if(error) res.status(500).send("Something went wrong on the server!");
