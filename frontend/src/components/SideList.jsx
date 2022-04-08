@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext,useEffect, useState, selectUser } from 'react';
+import { SocketContext } from '../Contexts/SocketContext';
 import axios from 'axios';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,13 +12,15 @@ let users = []
 axios.get(Constants.GET_ALL_USERS).then(res => { users = res.data; })
 
 const SideList = () => {
+  const [idToCall, setIdToCall] = useState('');
+
   return (
     <List>
         {
             users.map(function(item, i){
               console.log('test');
               return(
-                  <ListItem>
+                  <ListItem >
                     <ListItemAvatar>
                       <Avatar>{ item.username.toUpperCase().charAt(0) }</Avatar>
                     </ListItemAvatar>

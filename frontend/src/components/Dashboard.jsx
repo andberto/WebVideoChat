@@ -1,6 +1,5 @@
-import React, {useContext,useEffect } from 'react';
+import React, {useContext,useEffect, useState } from 'react';
 import VideoPlayer from './VideoPlayer';
-import Sidebar from './Sidebar';
 import Notifications from './Notifications';
 import AuthContext from "../Contexts/AuthContext";
 import SideList from './SideList.jsx';
@@ -13,7 +12,9 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import bgImg from '../images/chat_bg.jpg';
 import {Button} from '@material-ui/core';
-import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
+/* import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront'; */
+import { Phone, PhoneDisabled } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Contexts/SocketContext';
 
 const darkTheme = createTheme({
@@ -22,11 +23,46 @@ const darkTheme = createTheme({
   },
 });
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  gridContainer: {
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+    },
+  },
+  container: {
+    width: '600px',
+    margin: '35px 0',
+    padding: 0,
+    [theme.breakpoints.down('xs')]: {
+      width: '80%',
+    },
+  },
+  margin: {
+    marginTop: 20,
+  },
+  padding: {
+    padding: 20,
+  },
+  paper: {
+    padding: '10px 20px',
+    border: '2px solid black',
+  },
+}));
+
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
     const { myVideo, currentStream, setStream } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.25;
     console.log(auth);
+
+    const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
+    const [idToCall, setIdToCall] = useState('');
+    const classes = useStyles();
 
     useEffect(() => {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -49,9 +85,15 @@ const Dashboard = () => {
                      <Typography sx={{ color: 'white', textAlign: 'center' }}variant="h4" noWrap component="div">
                        Web Video Chat
                      </Typography>
-                     <Button variant="contained" color="primary" startIcon={<VideoCameraFrontIcon fontSize="large" />}>
-                       Call
-                     </Button>
+                     {callAccepted && !callEnded ? (
+                       <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} onClick={leaveCall} className={classes.margin}>
+                         Hang Up
+                       </Button>
+                     ) : (
+                       <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} onClick={() => callUser(me)} className={classes.margin}>
+                         Call
+                       </Button>
+                     )}
                    </Toolbar>
                  </AppBar>
                  <Drawer
@@ -67,9 +109,7 @@ const Dashboard = () => {
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                    <Toolbar />
                    <VideoPlayer />
-                   <Sidebar>
-                     <Notifications />
-                   </Sidebar>
+                   <Notifications />
                  </Box>
                </Box>
             </ThemeProvider>
