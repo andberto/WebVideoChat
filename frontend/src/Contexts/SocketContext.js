@@ -2,6 +2,7 @@ import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
 import * as Constants from '../Constants';
+import axios from 'axios';
 
 const SocketContext = createContext();
 
@@ -15,18 +16,12 @@ const ContextProvider = ({ children }) => {
   const [name, setName] = useState('');
   const [call, setCall] = useState({});
   const [me, setMe] = useState('');
-
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
+  const [selectedUser, setSelectedUser] = useState('');
 
   useEffect(() => {
-    /*navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        myVideo.current.srcObject = currentStream;
-    });*/
-
     socket.on('me', (id) => setMe(id));
 
     socket.on('callUser', ({ from, name: callerName, signal }) => {
@@ -36,6 +31,12 @@ const ContextProvider = ({ children }) => {
 
   const connect = () => {
     socket.connect();
+  };
+
+  const selectReceiver = (receiver) => {
+    axios.get(Constants.SET_SOCK_USER, { params: { username: receiver} }).then(response => {
+          setSelectedUser(response.data);
+    });
   };
 
   const answerCall = () => {
@@ -99,7 +100,9 @@ const ContextProvider = ({ children }) => {
       leaveCall,
       answerCall,
       setStream,
-      connect
+      connect,
+      selectedUser,
+      selectReceiver
     }}
     >
       {children}

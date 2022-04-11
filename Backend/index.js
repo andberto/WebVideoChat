@@ -72,7 +72,7 @@ app.get("/signup", function(request, response){
 app.post('/sockuser', function(req, res){
     var username = req.body.username;
     var sock_id = req.body.sock_id;
-    if(!(username in connected_sock_users) && sock_id != ''){
+    if(sock_id != ''){
         console.log(username + " " + sock_id);
         connected_sock_users[username] = sock_id;
     }
@@ -125,6 +125,7 @@ io.on("connection", (socket) => {
 
 	socket.on("disconnect", () => {
 		socket.broadcast.emit("callEnded")
+        console.log(socket.id + " disconnected!")
 	});
 
 	socket.on("callUser", ({ userToCall, signalData, from, name }) => {

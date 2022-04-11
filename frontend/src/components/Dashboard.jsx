@@ -58,13 +58,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
-    const {connect, myVideo, currentStream, setStream } = useContext(SocketContext);
+    const { connect, myVideo, currentStream, setStream } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.25;
-    console.log(auth);
-
-    const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
-    const [idToCall, setIdToCall] = useState('');
-    const classes = useStyles();
+    const { selectedUser, me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
+    const classes = useStyles
 
     useEffect(() => {
         connect();
@@ -79,11 +76,6 @@ const Dashboard = () => {
         }).then(response => {
             console.log(response.data);
         });
-
-        axios.get(Constants.SET_SOCK_USER, { params: { username: "test@gmail.com"} }).then(response => {
-            console.log("-----" + response.data);
-        });
-
     }, [auth, connect, me]);
 
     useEffect(() => {
@@ -112,7 +104,7 @@ const Dashboard = () => {
                          Hang Up
                        </Button>
                      ) : (
-                       <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} onClick={() => callUser(me)} className={classes.margin}>
+                       <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} onClick={() => callUser(selectedUser)} className={classes.margin}>
                          Call
                        </Button>
                      )}
