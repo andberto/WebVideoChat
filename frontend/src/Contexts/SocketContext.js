@@ -5,7 +5,7 @@ import * as Constants from '../Constants';
 
 const SocketContext = createContext();
 
-const socket = io(Constants.BACKEND_URL);
+const socket = io(Constants.BACKEND_URL,{ autoConnect: false });
 console.log(socket)
 
 const ContextProvider = ({ children }) => {
@@ -33,6 +33,10 @@ const ContextProvider = ({ children }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
   }, []);
+
+  const connect = () => {
+    socket.connect();
+  };
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -94,7 +98,8 @@ const ContextProvider = ({ children }) => {
       callUser,
       leaveCall,
       answerCall,
-      setStream
+      setStream,
+      connect
     }}
     >
       {children}

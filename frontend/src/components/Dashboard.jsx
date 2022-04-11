@@ -1,4 +1,6 @@
 import React, {useContext,useEffect, useState } from 'react';
+import axios from 'axios';
+import * as Constants from '../Constants';
 import VideoPlayer from './VideoPlayer';
 import Notifications from './Notifications';
 import AuthContext from "../Contexts/AuthContext";
@@ -56,13 +58,33 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
-    const { myVideo, currentStream, setStream } = useContext(SocketContext);
+    const {connect, myVideo, currentStream, setStream } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.25;
     console.log(auth);
 
     const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles();
+
+    useEffect(() => {
+        connect();
+        console.log(me,auth.user);
+        axios.post(Constants.SET_SOCK_USER, {
+          username: auth.user,
+          sock_id: me
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => {
+            console.log(response.data);
+        });
+
+        axios.get(Constants.SET_SOCK_USER, { params: { username: "test@gmail.com"} }).then(response => {
+            console.log("-----" + response.data);
+        });
+
+    }, [auth, connect, me]);
 
     useEffect(() => {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })

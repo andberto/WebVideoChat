@@ -1,16 +1,15 @@
 const app = require("express")();
+const bodyParser = require('body-parser');
 const server = require("http").createServer(app);
 const cors = require("cors");
 var mongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://TIMongoUser:mpuOyenjXgbAxKKH@cluster0.dirpm.mongodb.net/WebVideoChat?retryWrites=true&w=majority";
 
-app.use(cors());  //setting the CORS policy
+var connected_sock_users = {};
 
-/*
-    login http GET request handling
-    this function handles the request and queries MongoDB
-    to check the login
-*/
+app.use(cors());  //setting the CORS policy
+app.use(bodyParser.json());
+
 app.get('/', function(req, res){
     res.status(200).send("Server is running!");
 });
@@ -31,7 +30,6 @@ app.get("/login", function(request, response){
         }else if (result.length == 0 && !error){
             response.status(404).send("Wrong login!");
         }else if(result.length > 0 && !error) {
-            console.log(result)
             response.status(200).send("Logged in!");
         }
         db.close();
@@ -71,6 +69,23 @@ app.get("/signup", function(request, response){
     });
 });
 
+app.post('/sockuser', function(req, res){
+    var username = req.body.username;
+    var sock_id = req.body.sock_id;
+    if(!(username in connected_sock_users) && sock_id != ''){
+        console.log(username + " " + sock_id);
+        connected_sock_users[username] = sock_id;
+    }
+});
+
+app.get('/sockuser', function(req, res){
+    var username = req.query.username;
+    if(username in connected_sock_users)
+        res.status(200).send(connected_sock_users[username]);
+    else
+        res.status(404).send(username + " is offline!");
+});
+
 app.get('/allusers', function(req, response){
     mongoClient.connect(uri, function(error, db) {
       if(error) res.status(500).send("Something went wrong on the server!");
@@ -82,7 +97,6 @@ app.get('/allusers', function(req, response){
         }else if (result.length == 0 && !error){
             response.status(404).send("Wrong login!");
         }else if(result.length > 0 && !error) {
-            console.log(result)
             response.status(200).send(result);
         }
         db.close();
