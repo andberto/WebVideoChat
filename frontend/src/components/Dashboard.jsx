@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
+const Dashboard = ({id, otherUserid}) => {
     const { auth } = useContext(AuthContext);
     const { connect, myVideo, currentStream, setStream } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.25;
@@ -98,6 +98,9 @@ const Dashboard = () => {
                    <Toolbar sx={{ backgroundColor: "#3b3251", justifyContent: "space-between" }}>
                      <Typography sx={{ color: 'white', textAlign: 'center' }}variant="h4" noWrap component="div">
                        Web Video Chat
+                     </Typography>
+                     <Typography sx={{ color: 'white'}} variant="h4" noWrap component="div">
+                       {selectedUser}
                      </Typography>
                      {callAccepted && !callEnded ? (
                        <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} onClick={leaveCall} className={classes.margin}>

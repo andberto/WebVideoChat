@@ -17,11 +17,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import bgImg from '../images/background.gif'
+import useLocalStorage from '../useLocalStorage'
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState('')
     const [pwd, setPwd] = useState('');
     const navigate = useNavigate();
     const [isFormInvalid, setIsFormInvalid] = useState(false);

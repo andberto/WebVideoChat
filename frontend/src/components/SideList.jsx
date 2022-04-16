@@ -19,7 +19,7 @@ const SideList = () => {
         {
             users.map(function(item, i){
               return(
-                  <ListItem> /*onclick bisogna chiamare selectReceiver(item.username)*/
+                  <ListItem onClick={() => selectReceiver(item.username)}>
                     <ListItemAvatar>
                       <Avatar>{ item.username.toUpperCase().charAt(0) }</Avatar>
                     </ListItemAvatar>
