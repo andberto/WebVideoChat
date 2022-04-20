@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({id, otherUserid}) => {
+const Dashboard = () => {
     const { auth } = useContext(AuthContext);
     const { connect, myVideo, currentStream, setStream } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.25;
