@@ -5,6 +5,8 @@ import Signup from './components/Signup.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute.js'
 import { ContextProvider } from './Contexts/SocketContext.js';
+import "./styles.css";
+
 
 const App = () => {
   return (

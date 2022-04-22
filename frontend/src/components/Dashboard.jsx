@@ -19,16 +19,11 @@ import { Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Contexts/SocketContext';
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: '#f00'
   },
   gridContainer: {
     width: '100%',
@@ -87,49 +82,43 @@ const Dashboard = () => {
   }, [myVideo, setStream, currentStream]);
 
     return (
-            <ThemeProvider theme={darkTheme}>
-               <Box sx={{
-                   display: 'flex',
-                   backgroundImage: 'url(' + bgImg +')',
-                   backgroundRepeat: 'repeat',
-                }}>
-                 <CssBaseline />
-                 <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
-                   <Toolbar sx={{ backgroundColor: "#3b3251", justifyContent: "space-between" }}>
-                     <Typography sx={{ color: 'white', textAlign: 'center' }}variant="h4" noWrap component="div">
-                       Web Video Chat
-                     </Typography>
-                     <Typography sx={{ color: 'white'}} variant="h4" noWrap component="div">
-                       {selectedUser}
-                     </Typography>
-                     {callAccepted && !callEnded ? (
-                       <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} onClick={leaveCall} className={classes.margin}>
-                         Hang Up
-                       </Button>
-                     ) : (
-                       <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} onClick={() => callUser(selectedUser)} className={classes.margin}>
-                         Call
-                       </Button>
-                     )}
-                   </Toolbar>
-                 </AppBar>
-                 <Drawer
-                   variant="permanent"
-                   sx={{
-                     width: drawerWidth,
-                     flexShrink: 0,
-                   }}
-                 >
-                <Toolbar />
-                <SideList/>
-                </Drawer>
-                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                   <Toolbar />
-                   <VideoPlayer />
-                   <Notifications />
-                 </Box>
-               </Box>
-            </ThemeProvider>
+       <Box>
+         <CssBaseline />
+         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
+           <Toolbar sx={{ backgroundColor: "#3b3251", justifyContent: "space-between" }}>
+             <Typography sx={{ color: 'white', textAlign: 'center' }}variant="h4" noWrap component="div">
+               Web Video Chat
+             </Typography>
+             <Typography sx={{ color: 'white'}} variant="h4" noWrap component="div">
+               {selectedUser}
+             </Typography>
+             {callAccepted && !callEnded ? (
+               <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} onClick={leaveCall} className={classes.margin}>
+                 Hang Up
+               </Button>
+             ) : (
+               <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} onClick={() => callUser(selectedUser)} className={classes.margin}>
+                 Call
+               </Button>
+             )}
+           </Toolbar>
+         </AppBar>
+         <Drawer
+           variant="permanent"
+           sx={{
+             width: drawerWidth,
+             flexShrink: 0,
+           }}
+         >
+        <Toolbar/>
+        <SideList/>
+        </Drawer>
+        <Box className="drawerContainer" component="main" sx={{ flexGrow: 1, p: 3 }}>
+           <Toolbar />
+           <VideoPlayer />
+           <Notifications />
+         </Box>
+       </Box>
    );
 };
 

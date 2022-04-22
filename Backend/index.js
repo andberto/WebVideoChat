@@ -104,6 +104,10 @@ app.get('/allusers', function(req, response){
     });
 });
 
+app.get('/onlineusers', function(req, response){
+    response.status(200).send(Object.keys(connected_sock_users));
+});
+
 /*
     socket.io (server) initialization
 */
@@ -126,6 +130,11 @@ io.on("connection", (socket) => {
 	socket.on("disconnect", () => {
 		socket.broadcast.emit("callEnded")
         console.log(socket.id + " disconnected!")
+
+        for (const [key, value] of Object.entries(connected_sock_users)) {
+            if(value == socket.id)
+                delete connected_sock_users[key];
+        }
 	});
 
 	socket.on("callUser", ({ userToCall, signalData, from, name }) => {
