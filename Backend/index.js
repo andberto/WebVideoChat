@@ -75,6 +75,7 @@ app.post('/sockuser', function(req, res){
     if(sock_id != ''){
         console.log(username + " " + sock_id);
         connected_sock_users[username] = sock_id;
+        res.status(200).send("ok");
     }
 });
 
@@ -105,7 +106,14 @@ app.get('/allusers', function(req, response){
 });
 
 app.get('/onlineusers', function(req, response){
-    response.status(200).send(Object.keys(connected_sock_users));
+    result = []
+    for (const [key, value] of Object.entries(connected_sock_users)) {
+      result.push({
+         "username": key,
+         "sockid": value
+      });
+    }
+    response.status(200).send(JSON.stringify(result));
 });
 
 /*

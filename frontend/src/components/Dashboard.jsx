@@ -20,41 +20,26 @@ import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Contexts/SocketContext';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#f00'
-  },
-  gridContainer: {
-    width: '100%',
-    [theme.breakpoints.down('xs')]: {
+    root: {
+      display: 'flex',
       flexDirection: 'column',
+      backgroundColor: '#f00'
     },
-  },
-  container: {
-    width: '600px',
-    margin: '35px 0',
-    padding: 0,
-    [theme.breakpoints.down('xs')]: {
-      width: '80%',
+    drawerContainer: {
+        right: '0'
     },
-  },
-  margin: {
-    marginTop: 20,
-  },
-  padding: {
-    padding: 20,
-  },
-  paper: {
-    padding: '10px 20px',
-    border: '2px solid black',
-  },
+    margin: {
+        marginTop: 20,
+    },
+    padding: {
+        padding: 20,
+    }
 }));
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
     const { connect, myVideo, currentStream, setStream } = useContext(SocketContext);
-    const drawerWidth = window.innerWidth * 0.25;
+    const drawerWidth = window.innerWidth * 0.20;
     const { selectedUser, me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const classes = useStyles
 
@@ -82,10 +67,10 @@ const Dashboard = () => {
   }, [myVideo, setStream, currentStream]);
 
     return (
-       <Box>
+       <Box sx={{ display: 'flex' }}>
          <CssBaseline />
          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
-           <Toolbar sx={{ backgroundColor: "#3b3251", justifyContent: "space-between" }}>
+           <Toolbar sx={{ backgroundColor: "#252729", justifyContent: "space-between" }}>
              <Typography sx={{ color: 'white', textAlign: 'center' }}variant="h4" noWrap component="div">
                Web Video Chat
              </Typography>
@@ -97,28 +82,37 @@ const Dashboard = () => {
                  Hang Up
                </Button>
              ) : (
-               <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} onClick={() => callUser(selectedUser)} className={classes.margin}>
+               <Button style={{ backgroundColor: '#7881d6', color: 'white'}} variant="contained" startIcon={<Phone fontSize="large" />} onClick={() => callUser(selectedUser)} className={classes.margin}>
                  Call
                </Button>
              )}
            </Toolbar>
          </AppBar>
          <Drawer
-           variant="permanent"
-           sx={{
-             width: drawerWidth,
-             flexShrink: 0,
-           }}
+             sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                  width: drawerWidth,
+                  boxSizing: 'border-box',
+                  bgcolor: 'rgb(51,52,57)'
+                },
+              }}
+              variant="permanent"
+              anchor="left"
          >
         <Toolbar/>
         <SideList/>
         </Drawer>
-        <Box className="drawerContainer" component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box
+            component="main"
+            sx={{ flexGrow: 1, bgcolor: 'rgb(57,59,65)', p: 1 }}
+        >
            <Toolbar />
            <VideoPlayer />
            <Notifications />
-         </Box>
-       </Box>
+        </Box>
+    </Box>
    );
 };
 

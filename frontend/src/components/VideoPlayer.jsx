@@ -1,25 +1,16 @@
 import React, { useContext } from 'react';
-import { Grid, Typography, Paper, makeStyles } from '@material-ui/core';
+import { Grid, Typography, Box, makeStyles } from '@material-ui/core';
 import { SocketContext } from '../Contexts/SocketContext';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 
 const useStyles = makeStyles((theme) => ({
-  video: {
-    width: '550px',
-    [theme.breakpoints.down('xs')]: {
-      width: '300px',
-    },
-  },
-  gridContainer: {
-    justifyContent: 'center',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-    },
-  },
-  paper: {
-    padding: '10px',
-    border: '2px solid black',
-    margin: '10px',
-  },
+    video: {
+      width: '100%',
+      height: window.innerHeight * 0.80,
+    },container: {
+        backgroundColor: '#393b41',
+    }
 }));
 
 const VideoPlayer = () => {
@@ -27,24 +18,24 @@ const VideoPlayer = () => {
   const classes = useStyles();
 
   return (
-    <Grid container className={classes.gridContainer}>
+    <Stack direction="row"
+        divider={<Divider sx={{ bgcolor: "#999a9d" }} orientation="vertical" flexItem />}
+        spacing={2}
+        justifyContent="center"
+        >
       {stream && (
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>{name || 'Name'}</Typography>
+        <Box className={classes.container}>
             <video playsInline muted ref={myVideo} autoPlay className={classes.video} />
-          </Grid>
-        </Paper>
+            <Typography variant="h6" style = {{color: "white"}} gutterBottom component="div">Nome persona</Typography>
+        </Box>
       )}
       {callAccepted && !callEnded &&(
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>{call.name || 'Name'}</Typography>
+        <Box className={classes.container}>
             <video playsInline ref={userVideo} autoPlay className={classes.video} />
-          </Grid>
-        </Paper>
+            <Typography variant="h6"  style = {{color: "white"}} gutterBottom component="div">Nome persona</Typography>
+        </Box>
       )}
-    </Grid>
+    </Stack>
   );
 };
 
