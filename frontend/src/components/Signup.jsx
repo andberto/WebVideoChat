@@ -11,11 +11,23 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { Link as lk} from 'react-router-dom'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import bgImg from '../images/background.gif'
 import validator from 'validator'
+
+const WhiteBorderTextField = styled(TextField)`
+  & label.Mui-focused {
+    color: white;
+  }
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: white;
+    }
+  }
+`;
 
 const Signup = () => {
     const { setAuth } = useContext(AuthContext);
@@ -107,7 +119,7 @@ const Signup = () => {
               backgroundPosition: 'center',
             }}
           />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid style = {{backgroundColor: 'rgb(57,59,65)'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <Box
               sx={{
                 my: 8,
@@ -124,7 +136,7 @@ const Signup = () => {
                 Sign Up
               </Typography>
               <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                <TextField
+                <WhiteBorderTextField
                   margin="normal"
                   required
                   fullWidth
@@ -137,7 +149,7 @@ const Signup = () => {
                   name="username"
                   autoFocus
                 />
-                <TextField
+                <WhiteBorderTextField
                   margin="normal"
                   required
                   fullWidth
@@ -167,12 +179,13 @@ const Signup = () => {
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  style={{backgroundColor: '#5865f2', color: 'white'}}
                 >
                   Sign Up
                 </Button>
                 <Grid container>
                   <Grid item>
-                    <Link href="./login" variant="body2">
+                    <Link component={lk} to="/login" variant="body2">
                       {"Do you already have an account?"}
                     </Link>
                   </Grid>

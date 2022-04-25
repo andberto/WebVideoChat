@@ -12,12 +12,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import bgImg from '../images/chat_bg.jpg';
 import {Button} from '@material-ui/core';
+import logo from '../images/banner_logo.png';
 /* import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront'; */
 import { Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Contexts/SocketContext';
+import VideocamIcon from '@mui/icons-material/Videocam';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,10 +71,8 @@ const Dashboard = () => {
        <Box sx={{ display: 'flex' }}>
          <CssBaseline />
          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
-           <Toolbar sx={{ backgroundColor: "#252729", justifyContent: "space-between" }}>
-             <Typography sx={{ color: 'white', textAlign: 'center' }}variant="h4" noWrap component="div">
-               Web Video Chat
-             </Typography>
+           <Toolbar sx={{ backgroundColor: "#252729", justifyContent: "space-between"}}>
+             <img src={logo} alt="Logo" style={{width: '10%',height: '10%', marginTop: '5px', marginBottom:'5px'}}/>
              <Typography sx={{ color: 'white'}} variant="h4" noWrap component="div">
                {selectedUser}
              </Typography>
@@ -82,7 +81,7 @@ const Dashboard = () => {
                  Hang Up
                </Button>
              ) : (
-               <Button style={{ backgroundColor: '#7881d6', color: 'white'}} variant="contained" startIcon={<Phone fontSize="large" />} onClick={() => callUser(selectedUser)} className={classes.margin}>
+               <Button style={{ backgroundColor: '#5865f2', color: 'white'}} variant="contained" startIcon={<Phone fontSize="large" />} onClick={() => callUser(selectedUser)} className={classes.margin}>
                  Call
                </Button>
              )}

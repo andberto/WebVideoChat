@@ -76,7 +76,7 @@ const SideList = () => {
     }, [setUsers, setOnlineUsers, setOfflineUsers, onlineUsers, users]);
 
   return (
-    <div>
+    <div style = {{marginTop:'10%'}}>
     <List className={styles.root}>
     <ListItem style={{color: "#999a9d"}}>Online users</ListItem>
         {
@@ -97,7 +97,7 @@ const SideList = () => {
                         col = 'green'
                       >
                       <Avatar style={{
-                          backgroundColor: "#7881d6",
+                          backgroundColor: "#5865f2",
                           color: "white"
                       }}>{ item.username.toUpperCase().charAt(0) }
                       </Avatar>
@@ -130,7 +130,7 @@ const SideList = () => {
                         col = 'red'
                       >
                       <Avatar style={{
-                          backgroundColor: "#7881d6",
+                          backgroundColor: "#5865f2",
                           color: "white"
                       }}>{ item.username.toUpperCase().charAt(0) }
                       </Avatar>

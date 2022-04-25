@@ -10,14 +10,26 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
+import { Link as lk} from 'react-router-dom'
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import bgImg from '../images/background.gif'
 import useLocalStorage from '../useLocalStorage'
+
+const WhiteBorderTextField = styled(TextField)`
+  & label.Mui-focused {
+    color: white;
+  }
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: white;
+    }
+  }
+`;
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -88,13 +100,11 @@ const Login = () => {
             sx={{
               backgroundImage: 'url(' + bgImg +')',
               backgroundRepeat: 'no-repeat',
-              backgroundColor: (t) =>
-                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid style = {{backgroundColor: 'rgb(57,59,65)'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <Box
               sx={{
                 my: 8,
@@ -111,7 +121,7 @@ const Login = () => {
                 Sign in
               </Typography>
               <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                <TextField
+                <WhiteBorderTextField
                   margin="normal"
                   required
                   fullWidth
@@ -124,8 +134,9 @@ const Login = () => {
                   name="username"
                   autoComplete="email"
                   autoFocus
+                  style={{color: 'white'}}
                 />
-                <TextField
+                <WhiteBorderTextField
                   margin="normal"
                   required
                   fullWidth
@@ -138,27 +149,25 @@ const Login = () => {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
+                  style={{ color: 'white'}}
                 />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  style={{backgroundColor: '#5865f2', color: 'white'}}
                 >
                   Sign In
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link  href="#" variant="body2">
                       Forgot password?
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="./registration" variant="body2">
+                    <Link component={lk} to="/registration" variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>
