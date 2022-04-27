@@ -7,8 +7,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import { Link as lk} from 'react-router-dom'
 import Paper from '@mui/material/Paper';
@@ -18,7 +16,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import bgImg from '../images/background.gif'
-import useLocalStorage from '../useLocalStorage'
 
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused {
@@ -40,6 +37,7 @@ const Login = () => {
     const [isFormInvalid, setIsFormInvalid] = useState(false);
 
     useEffect(() => {
+        document.title = "W.V.C - Login"
         userRef.current.focus();
     }, [])
 

@@ -1,4 +1,4 @@
-import React, {useContext,useEffect, useState } from 'react';
+import React, {useContext,useEffect } from 'react';
 import axios from 'axios';
 import * as Constants from '../Constants';
 import VideoPlayer from './VideoPlayer';
@@ -11,14 +11,11 @@ import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Button} from '@material-ui/core';
 import logo from '../images/banner_logo.png';
-/* import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront'; */
 import { Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Contexts/SocketContext';
-import VideocamIcon from '@mui/icons-material/Videocam';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,10 +38,11 @@ const Dashboard = () => {
     const { auth } = useContext(AuthContext);
     const { connect, myVideo, currentStream, setStream } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.20;
-    const { selectedUser, me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
+    const { selectedUser, me, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const classes = useStyles
 
     useEffect(() => {
+        document.title = "W.V.C - Dashboard"
         connect();
         console.log(me,auth.user);
         axios.post(Constants.SET_SOCK_USER, {

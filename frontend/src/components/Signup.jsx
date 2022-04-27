@@ -40,6 +40,7 @@ const Signup = () => {
     const [isFormInvalid, setIsFormInvalid] = useState(false);
 
     useEffect(() => {
+        document.title = "W.V.C - Signup"
         userRef.current.focus();
     }, [])
 
@@ -161,7 +162,7 @@ const Signup = () => {
                   type="password"
                   id="password"
                 />
-                <TextField
+                <WhiteBorderTextField
                   margin="normal"
                   required
                   fullWidth
