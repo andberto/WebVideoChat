@@ -116,11 +116,11 @@ const Signup = () => {
               backgroundRepeat: 'no-repeat',
               backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+              backgroundPosition: '100%, 100%',
             }}
           />
-          <Grid style = {{backgroundColor: 'rgb(57,59,65)'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid style = {{backgroundColor: 'rgb(37, 39, 41)'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <Box
               sx={{
                 my: 8,

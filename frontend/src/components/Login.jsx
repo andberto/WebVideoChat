@@ -102,7 +102,7 @@ const Login = () => {
               backgroundPosition: 'center',
             }}
           />
-          <Grid style = {{backgroundColor: 'rgb(57,59,65)'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid style = {{backgroundColor: 'rgb(37, 39, 41)'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <Box
               sx={{
                 my: 8,
