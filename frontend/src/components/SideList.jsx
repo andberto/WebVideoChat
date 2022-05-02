@@ -50,7 +50,6 @@ const StyledBadge = styled(Badge)(({theme, col: color }) => ({
   },
 }));
 
-
 const SideList = () => {
     const { selectReceiver, selectedUser } = useContext(SocketContext);
     const styles = useStyles();

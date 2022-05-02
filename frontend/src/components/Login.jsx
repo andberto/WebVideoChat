@@ -16,6 +16,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import bgImg from '../images/background.gif'
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { sha256 } from 'js-sha256';
 
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused {
@@ -29,29 +32,41 @@ const WhiteBorderTextField = styled(TextField)`
 `;
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
+    const { setAuth, auth } = useContext(AuthContext);
     const userRef = useRef();
     const [user, setUser] = useState('')
     const [pwd, setPwd] = useState('');
+    const [checked, setChecked] = useState(false);
     const navigate = useNavigate();
     const [isFormInvalid, setIsFormInvalid] = useState(false);
 
     useEffect(() => {
+        var prevAuth = JSON.parse(localStorage.getItem('auth'));
+        console.log("prev" + prevAuth);
+        if(prevAuth && prevAuth.success) {
+            setAuth(prevAuth);
+            navigate('/dashboard');
+        }
+
         document.title = "W.V.C - Login"
         userRef.current.focus();
-    }, [])
+    }, [navigate,setAuth]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(Constants.LOGIN_URL, { params: { username: user, password: pwd } });
-            console.log(response);
-            const success = true;
-            setAuth({ user, pwd, success});
+            const response = await axios.get(Constants.LOGIN_URL, { params: { username: user, password: sha256(pwd) } });
+            console.log(auth + " " +response.data);
+            setAuth({ username: user, success: true });
             setUser('');
             setPwd('');
             setIsFormInvalid(false);
-            console.log('Login successfull!');
+            console.log(checked);
+
+            if(checked){
+                localStorage.setItem('auth', JSON.stringify({ username: user, success: true }));
+            }
+
             navigate('/dashboard');
         } catch (err) {
             setIsFormInvalid(true);
@@ -85,6 +100,15 @@ const Login = () => {
         mode: 'dark',
       },
     });
+
+    const handleCheck = (e) => {
+        const checked = e.target.checked;
+        if (checked) {
+            setChecked(true);
+        } else {
+            setChecked(false);
+        }
+    };
 
     return (
       <ThemeProvider theme={theme}>
@@ -148,6 +172,13 @@ const Login = () => {
                   id="password"
                   autoComplete="current-password"
                   style={{ color: 'white'}}
+                />
+                <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                    onClick={(e) => {
+                        handleCheck(e);
+                    }}
                 />
                 <Button
                   type="submit"

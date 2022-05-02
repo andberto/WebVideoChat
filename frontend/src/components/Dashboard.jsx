@@ -16,6 +16,8 @@ import logo from '../images/banner_logo.png';
 import { Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Contexts/SocketContext';
+import Link from '@mui/material/Link';
+import { Link as lk} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,22 +33,24 @@ const useStyles = makeStyles((theme) => ({
     },
     padding: {
         padding: 20,
-    }
+    },divider: {
+      background: '#fff',
+  }
 }));
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
-    const { connect, myVideo, currentStream, setStream } = useContext(SocketContext);
+    const { connect, myVideo, currentStream, setName, name ,setStream, selectedUser, me, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.20;
-    const { selectedUser, me, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const classes = useStyles
 
     useEffect(() => {
         document.title = "W.V.C - Dashboard"
         connect();
-        console.log(me,auth.user);
+        setName(auth.username);
+
         axios.post(Constants.SET_SOCK_USER, {
-          username: auth.user,
+          username: auth.username,
           sock_id: me
         }, {
           headers: {
@@ -55,7 +59,7 @@ const Dashboard = () => {
         }).then(response => {
             console.log(response.data);
         });
-    }, [auth, connect, me]);
+    }, [auth, connect, me, name, setName]);
 
     useEffect(() => {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -64,6 +68,10 @@ const Dashboard = () => {
           myVideo.current.srcObject = currentStream;
       });
   }, [myVideo, setStream, currentStream]);
+
+    function logout(){
+        localStorage.clear();
+    }
 
     return (
        <Box sx={{ display: 'flex' }}>
@@ -100,6 +108,16 @@ const Dashboard = () => {
          >
         <Toolbar/>
         <SideList/>
+        <hr/>
+        <Typography component="div" style={{textAlign: 'center'}}>
+            <Box sx={{ fontSize: 15, m: 1, color: '#c9c9cb' }}>Logged as: </Box>
+            <Box sx={{ fontSize: 15, m: 1, color: '#c9c9cb' }}>{auth.username}</Box>
+            <Box sx={{ fontSize: 15, m: 1 }}>
+            <Link component={lk} style={{ color: '#5865f2'}} to="/login" onClick={logout} variant="body2">
+              {"Logout"}
+            </Link>
+            </Box>
+        </Typography>
         </Drawer>
         <Box
             component="main"

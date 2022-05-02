@@ -7,6 +7,7 @@ import Divider from '@mui/material/Divider';
 import { Phone, PhoneDisabled } from '@material-ui/icons';
 import ReactAudioPlayer from 'react-audio-player';
 import ringtone from '../audio/ringtone.mp3';
+import {Typography, Box } from '@material-ui/core';
 
 export default function Notifications() {
   const { answerCall, call, callAccepted, leaveCall } = useContext(SocketContext);
@@ -37,7 +38,10 @@ export default function Notifications() {
          spacing={2}
          justifyContent="center"
          >
-            <h2>Incoming call from [PERSONA]</h2>
+            <Typography component="div">
+                <Box sx={{ fontSize: 25, m: 1 }}>Incoming call from:</Box>
+                <Box sx={{ fontSize: 25, m: 1, fontStyle: 'oblique' }}>{call.name}</Box>
+            </Typography>
             <Stack direction="row" justifyContent="center" spacing={2}>
                 <Button variant="contained" style={{ backgroundColor: '#98ff30', color: 'black'}} startIcon={<Phone fontSize="large" />} onClick={answerCall}>
                   Answer
