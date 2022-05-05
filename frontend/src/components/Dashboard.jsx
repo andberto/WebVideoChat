@@ -70,9 +70,9 @@ const Dashboard = () => {
   }, [myVideo, setStream, currentStream]);
 
     function logout(){
-        connectionRef.current.destroy();
         disconnect();
         localStorage.clear();
+        connectionRef.current.destroy();
     }
 
     return (
