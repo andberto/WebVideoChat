@@ -106,6 +106,7 @@ const ContextProvider = ({ children }) => {
       connect,
       selectedUser,
       selectReceiver,
+      connectionRef,
       disconnect
     }}
     >

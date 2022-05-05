@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
-    const { disconnect, connect, myVideo, currentStream, setName, name ,setStream, selectedUser, me, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
+    const { disconnect, connect, connectionRef, myVideo, currentStream, setName, name ,setStream, selectedUser, me, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.20;
     const classes = useStyles
 
@@ -70,6 +70,7 @@ const Dashboard = () => {
   }, [myVideo, setStream, currentStream]);
 
     function logout(){
+        connectionRef.current.destroy();
         disconnect();
         localStorage.clear();
     }
