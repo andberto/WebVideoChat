@@ -41,6 +41,10 @@ const ContextProvider = ({ children }) => {
     });
   };
 
+  const disconnect = () => {
+    socket.disconnect();
+  };
+
   const answerCall = () => {
     setCallAccepted(true);
 
@@ -101,7 +105,8 @@ const ContextProvider = ({ children }) => {
       setStream,
       connect,
       selectedUser,
-      selectReceiver
+      selectReceiver,
+      disconnect
     }}
     >
       {children}

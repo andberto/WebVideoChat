@@ -17,7 +17,7 @@ import { Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Contexts/SocketContext';
 import Link from '@mui/material/Link';
-import { Link as lk} from 'react-router-dom'
+import { Link as lk} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
-    const { connect, myVideo, currentStream, setName, name ,setStream, selectedUser, me, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
+    const { disconnect, connect, myVideo, currentStream, setName, name ,setStream, selectedUser, me, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const drawerWidth = window.innerWidth * 0.20;
     const classes = useStyles
 
@@ -70,6 +70,7 @@ const Dashboard = () => {
   }, [myVideo, setStream, currentStream]);
 
     function logout(){
+        disconnect();
         localStorage.clear();
     }
 
@@ -80,7 +81,7 @@ const Dashboard = () => {
            <Toolbar sx={{ backgroundColor: "#252729", justifyContent: "space-between"}}>
              <img src={logo} alt="Logo" style={{width: '10%',height: '10%', marginTop: '5px', marginBottom:'5px'}}/>
              <Typography sx={{ color: 'white'}} variant="h4" noWrap component="div">
-               {selectedUser}
+               PeerID: {selectedUser}
              </Typography>
              {callAccepted && !callEnded ? (
                <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} onClick={leaveCall} className={classes.margin}>

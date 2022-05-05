@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import bgImg from '../images/background.gif'
 import validator from 'validator'
+import { sha256 } from 'js-sha256';
 
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused {
@@ -59,7 +60,7 @@ const Signup = () => {
         }
 
         try {
-            const response = await axios.get(Constants.REGISTRATION_URL, { params: { username: user, password: pwd } });
+            const response = await axios.get(Constants.REGISTRATION_URL, { params: { username: user, password: sha256(pwd) } });
             console.log(response);
             const success = true;
             setAuth({ user, pwd, success});
@@ -114,10 +115,8 @@ const Signup = () => {
             sx={{
               backgroundImage: 'url(' + bgImg +')',
               backgroundRepeat: 'no-repeat',
-              backgroundColor: (t) =>
-                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-              backgroundSize: 'contain',
-              backgroundPosition: '100%, 100%',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
           />
           <Grid style = {{backgroundColor: 'rgb(37, 39, 41)'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
