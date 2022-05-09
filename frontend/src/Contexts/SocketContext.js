@@ -6,8 +6,7 @@ import axios from 'axios';
 
 const SocketContext = createContext();
 
-const socket = io(Constants.BACKEND_URL,{ autoConnect: false });
-console.log(socket)
+var socket = io(Constants.BACKEND_URL,{ autoConnect: false });
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
@@ -22,12 +21,17 @@ const ContextProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState('');
 
   useEffect(() => {
+    socket = io(Constants.BACKEND_URL,{ autoConnect: false });
+
     socket.on('me', (id) => setMe(id));
 
     socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-  }, []);
+
+    setCallEnded(false);
+
+  }, [callEnded]);
 
   const connect = () => {
     socket.connect();
@@ -80,12 +84,23 @@ const ContextProvider = ({ children }) => {
     });
 
     connectionRef.current = peer;
+
   };
 
   const leaveCall = () => {
-    setCallEnded(true);
-    connectionRef.current.destroy();
-    window.location.reload();
+    if (call.isReceivingCall && !callAccepted) {
+      call.isReceivingCall = false;
+      setCallEnded(true);
+      setCallAccepted(false);
+    }
+    else {
+      call.isReceivingCall = false;
+      setCallEnded(true);
+      setCallAccepted(false);
+      socket.disconnect();
+      userVideo.current.srcObject = null;
+      connectionRef.current = null;
+    }
   };
 
   return (
