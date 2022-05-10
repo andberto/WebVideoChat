@@ -83,6 +83,10 @@ const ContextProvider = ({ children }) => {
       peer.signal(signal);
     });
 
+    socket.on('hangUp', () => {
+      leaveCall();
+    });
+
     connectionRef.current = peer;
 
   };
@@ -101,6 +105,7 @@ const ContextProvider = ({ children }) => {
       userVideo.current.srcObject = null;
       connectionRef.current = null;
     }
+    socket.emit('hangUp', { sckId: call.from });
   };
 
   return (
