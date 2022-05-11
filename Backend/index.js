@@ -153,6 +153,10 @@ io.on("connection", (socket) => {
 		io.to(data.to).emit("callAccepted", data.signal)
 	});
 
+  socket.on("stopVideo", () => {
+		socket.broadcast.emit("stopVideo");
+	});
+
 });
 
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

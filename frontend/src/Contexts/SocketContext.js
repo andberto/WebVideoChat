@@ -56,6 +56,7 @@ const ContextProvider = ({ children }) => {
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
+      console.log("peer answered" + call.from);
     });
 
     peer.on('stream', (currentStream) => {
@@ -65,6 +66,7 @@ const ContextProvider = ({ children }) => {
 
     peer.signal(call.signal);
     connectionRef.current = peer;
+
   };
 
   const callUser = (id) => {
@@ -80,6 +82,7 @@ const ContextProvider = ({ children }) => {
 
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true);
+      console.log("peer called" + id);
       peer.signal(signal);
     });
 
@@ -95,12 +98,26 @@ const ContextProvider = ({ children }) => {
     }
     else {
       call.isReceivingCall = false;
-      setCallEnded(true);
       setCallAccepted(false);
+      setCallEnded(true);
+      socket.emit("stopVideo");
       socket.disconnect();
       userVideo.current.srcObject = null;
       connectionRef.current = null;
     }
+  };
+
+  socket.on("stopVideo", () => {
+    if (callAccepted) {
+      completeLeaveCall();
+    }
+  });
+
+  const completeLeaveCall = () => {
+      call.isReceivingCall = false;
+      setCallAccepted(false);
+      setCallEnded(true);
+      console.log("hey");
   };
 
   return (
