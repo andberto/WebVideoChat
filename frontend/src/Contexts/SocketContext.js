@@ -19,6 +19,8 @@ const ContextProvider = ({ children }) => {
   const userVideo = useRef();
   const connectionRef = useRef();
   const [selectedUser, setSelectedUser] = useState('');
+  const [otherName, setOtherName] = useState('');
+  const [initiatorCall, setInitiatorCall] = useState(false);
 
   useEffect(() => {
     socket = io(Constants.BACKEND_URL,{ autoConnect: false });
@@ -56,6 +58,7 @@ const ContextProvider = ({ children }) => {
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
+      socket.emit('myName', { name: name, to: call.from})
       console.log("peer answered" + call.from);
     });
 
@@ -67,9 +70,11 @@ const ContextProvider = ({ children }) => {
     peer.signal(call.signal);
     connectionRef.current = peer;
 
+
   };
 
   const callUser = (id) => {
+
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
     peer.on('signal', (data) => {
@@ -82,13 +87,15 @@ const ContextProvider = ({ children }) => {
 
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true);
+      setInitiatorCall(true);
       console.log("peer called" + id);
       peer.signal(signal);
     });
 
-    socket.on('hangUp', () => {
-      leaveCall();
-    });
+    socket.on('otherName', (other) => {
+      console.log(other);
+      setOtherName(other);
+    })
 
     connectionRef.current = peer;
 
@@ -104,12 +111,12 @@ const ContextProvider = ({ children }) => {
       call.isReceivingCall = false;
       setCallAccepted(false);
       setCallEnded(true);
+      setInitiatorCall(false);
       socket.emit("stopVideo");
       socket.disconnect();
       userVideo.current.srcObject = null;
       connectionRef.current = null;
     }
-    socket.emit('hangUp', { sckId: call.from });
   };
 
   socket.on("stopVideo", () => {
@@ -122,6 +129,7 @@ const ContextProvider = ({ children }) => {
       call.isReceivingCall = false;
       setCallAccepted(false);
       setCallEnded(true);
+      setInitiatorCall(false);
       console.log("hey");
   };
 
@@ -144,7 +152,10 @@ const ContextProvider = ({ children }) => {
       selectedUser,
       selectReceiver,
       connectionRef,
-      disconnect
+      disconnect,
+      otherName,
+      setOtherName,
+      initiatorCall
     }}
     >
       {children}

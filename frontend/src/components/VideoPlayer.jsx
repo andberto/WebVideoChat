@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VideoPlayer = () => {
-  const { callAccepted, myVideo, userVideo, callEnded, stream, name, call } = useContext(SocketContext);
+  const { callAccepted, myVideo, userVideo, callEnded, stream, name, call, otherName, setOtherName, initiatorCall } = useContext(SocketContext);
   const classes = useStyles();
 
   return (
@@ -32,7 +32,7 @@ const VideoPlayer = () => {
       {callAccepted && !callEnded &&(
         <Box className={classes.container}>
             <video playsInline ref={userVideo} autoPlay className={classes.video} />
-            <Typography variant="h6"  style = {{color: "white"}} gutterBottom component="div">{call.name}</Typography>
+            <Typography variant="h6"  style = {{color: "white"}} gutterBottom component="div">{(initiatorCall) ? otherName : call.name}</Typography>
         </Box>
       )}
     </Stack>
