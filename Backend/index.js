@@ -149,6 +149,11 @@ io.on("connection", (socket) => {
 		io.to(userToCall).emit("callUser", { signal: signalData, from, name });
 	});
 
+    socket.on("hangUp", ({ sckId}) => {
+        console.log(sckId + "Should hangup");
+		io.to(sckId).emit("hangUp");
+	});
+
 	socket.on("answerCall", (data) => {
 		io.to(data.to).emit("callAccepted", data.signal)
 	});
