@@ -10,11 +10,11 @@ var connected_sock_users = {};
 app.use(cors());  //setting the CORS policy
 app.use(bodyParser.json());
 
-app.get('/', function(req, res){
+app.get('/api/', function(req, res){
     res.status(200).send("Server is running!");
 });
 
-app.get("/login", function(request, response){
+app.get("/api/login", function(request, response){
     var username = request.query.username;
     var password = request.query.password;
 
@@ -37,7 +37,7 @@ app.get("/login", function(request, response){
     });
 });
 
-app.get("/signup", function(request, response){
+app.get("/api/signup", function(request, response){
     var username = request.query.username;
     var password = request.query.password;
 
@@ -69,7 +69,7 @@ app.get("/signup", function(request, response){
     });
 });
 
-app.post('/sockuser', function(req, res){
+app.post('/api/sockuser', function(req, res){
     var username = req.body.username;
     var sock_id = req.body.sock_id;
     if(sock_id != ''){
@@ -79,7 +79,7 @@ app.post('/sockuser', function(req, res){
     }
 });
 
-app.get('/sockuser', function(req, res){
+app.get('/api/sockuser', function(req, res){
     var username = req.query.username;
     if(username in connected_sock_users)
         res.status(200).send(connected_sock_users[username]);
@@ -87,7 +87,7 @@ app.get('/sockuser', function(req, res){
         res.status(404).send(username + " is offline!");
 });
 
-app.get('/allusers', function(req, response){
+app.get('/api/allusers', function(req, response){
     mongoClient.connect(uri, function(error, db) {
       if(error) res.status(500).send("Something went wrong on the server!");
 
@@ -105,7 +105,7 @@ app.get('/allusers', function(req, response){
     });
 });
 
-app.get('/onlineusers', function(req, response){
+app.get('/api/onlineusers', function(req, response){
     result = []
     for (const [key, value] of Object.entries(connected_sock_users)) {
       result.push({

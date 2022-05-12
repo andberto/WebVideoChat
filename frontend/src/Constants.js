@@ -1,7 +1,7 @@
-export const BACKEND_URL = 'http://localhost:5000';
-export const LOGIN_URL = 'http://localhost:5000/login';
-export const REGISTRATION_URL = 'http://localhost:5000/signup';
-export const FRONTEND_URL = 'http://localhost:3000';
-export const GET_ALL_USERS = 'http://localhost:5000/allusers';
-export const GET_ONLINE_USERS = 'http://localhost:5000/onlineusers';
-export const SET_SOCK_USER = 'http://localhost:5000/sockuser';
+export const BACKEND_URL = '/';
+export const LOGIN_URL = '/api/login';
+export const REGISTRATION_URL = '/api/signup';
+export const FRONTEND_URL = '.';
+export const GET_ALL_USERS = '/api/allusers';
+export const GET_ONLINE_USERS = '/api/onlineusers';
+export const SET_SOCK_USER = '/api/sockuser';

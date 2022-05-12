@@ -10,7 +10,7 @@ import ringtone from '../audio/ringtone.mp3';
 import {Typography, Box } from '@material-ui/core';
 
 export default function Notifications() {
-  const { answerCall, call, callAccepted, leaveCall, otherName, setOtherName } = useContext(SocketContext);
+  const { answerCall, call, callAccepted, leaveCall } = useContext(SocketContext);
 
   return (
     <>

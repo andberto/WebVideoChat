@@ -57,7 +57,6 @@ const Dashboard = () => {
             'Content-Type': 'application/json'
           }
         }).then(response => {
-            console.log(response.data);
         });
     }, [auth, connect, me, name, setName]);
 

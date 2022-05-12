@@ -60,8 +60,7 @@ const Signup = () => {
         }
 
         try {
-            const response = await axios.get(Constants.REGISTRATION_URL, { params: { username: user, password: sha256(pwd) } });
-            console.log(response);
+            await axios.get(Constants.REGISTRATION_URL, { params: { username: user, password: sha256(pwd) } });
             const success = true;
             setAuth({ user, pwd, success});
             setUser('');

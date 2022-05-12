@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VideoPlayer = () => {
-  const { callAccepted, myVideo, userVideo, callEnded, stream, name, call, otherName, setOtherName, initiatorCall } = useContext(SocketContext);
+  const { callAccepted, myVideo, userVideo, callEnded, stream, name, call, otherName, initiatorCall } = useContext(SocketContext);
   const classes = useStyles();
 
   return (

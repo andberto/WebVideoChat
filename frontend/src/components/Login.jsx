@@ -32,7 +32,7 @@ const WhiteBorderTextField = styled(TextField)`
 `;
 
 const Login = () => {
-    const { setAuth, auth } = useContext(AuthContext);
+    const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
     const [user, setUser] = useState('')
     const [pwd, setPwd] = useState('');
@@ -42,7 +42,6 @@ const Login = () => {
 
     useEffect(() => {
         var prevAuth = JSON.parse(localStorage.getItem('auth'));
-        console.log("prev" + prevAuth);
         if(prevAuth && prevAuth.success) {
             setAuth(prevAuth);
             navigate('/dashboard');
@@ -55,13 +54,11 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(Constants.LOGIN_URL, { params: { username: user, password: sha256(pwd) } });
-            console.log(auth + " " +response.data);
+            await axios.get(Constants.LOGIN_URL, { params: { username: user, password: sha256(pwd) } });
             setAuth({ username: user, success: true });
             setUser('');
             setPwd('');
             setIsFormInvalid(false);
-            console.log(checked);
 
             if(checked){
                 localStorage.setItem('auth', JSON.stringify({ username: user, success: true }));
