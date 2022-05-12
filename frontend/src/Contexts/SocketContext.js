@@ -40,6 +40,7 @@ const ContextProvider = ({ children }) => {
   };
 
   const selectReceiver = (receiver) => {
+    setOtherName(receiver);
     axios.get(Constants.SET_SOCK_USER, { params: { username: receiver} }).then(response => {
         setSelectedUser(response.data);
     }).catch(err => {
